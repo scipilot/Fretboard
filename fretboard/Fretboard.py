@@ -3248,5 +3248,6 @@ def show_menu():
         else:
             print "Unknown option", selection, "selected!"
 
-
-show_menu()
+# PJ: removed this for library usage.
+# TODO: replace with another top-level entry point, or move all this out to keep the entry point the same?
+# show_menu()

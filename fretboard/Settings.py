@@ -1,12 +1,14 @@
+import os
+
 # Settings
 # Opens the settings.txt file and loads the variables for all of the available settings.
 try:
     # Open the file for reading the fretboard settings
-    with open('settings.txt', 'r') as infile:
+    with open(os.path.dirname(__file__)+'/settings.txt', 'r') as infile:
         data = infile.read()  # Read the contents of the file into memory.
         pass
 except IOError as e:
-    print "Unable to open settings file" #Does not exist OR no read permissions
+    print "2. Unable to open settings file" #Does not exist OR no read permissions
     pass
 
 # Return a list of the lines, breaking at line boundaries.

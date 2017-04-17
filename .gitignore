@@ -13,6 +13,9 @@ Chord Finger Positions.xls
 .Rhistory
 .idea/
 
+# pip stuff
+fretboard.egg-info/*
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

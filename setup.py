@@ -17,5 +17,5 @@ setup(
     author_email='steven.muschalik@gmail.com',
     url='https://github.com/fusionprogguy/Fretboard',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=['fretboard']
 )
