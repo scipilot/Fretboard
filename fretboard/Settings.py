@@ -8,7 +8,7 @@ try:
         data = infile.read()  # Read the contents of the file into memory.
         pass
 except IOError as e:
-    print "2. Unable to open settings file" #Does not exist OR no read permissions
+    print("2. Unable to open settings file") #Does not exist OR no read permissions
     pass
 
 # Return a list of the lines, breaking at line boundaries.

@@ -6,18 +6,18 @@ import random
 from random import randint
 import numbers
 # Load the settings file and instrument dimension files
-import Settings
+from . import Settings
 # from Settings import *  # Load the Settings.txt file
-from Dimensions import *  # Load the instrument Dimensions
+from .Dimensions import *  # Load the instrument Dimensions
 # Load the list of Notes and dictionaries for Scales, Chords and Tunings
-from Notes import *  # Load the types of Notes
-from Scales import *  # Load the Scales
-from Chords import *  # Load the Chords
-from Tunings import *  # Load the Tunings
-from Progressions import *  # Load the Tunings
-from TedGreene import *  # Load Ted Greene
-from Exercises import *  # Load the Exercises
-from Frequency import *  # Load the Sound Frequencies
+from .Notes import *  # Load the types of Notes
+from .Scales import *  # Load the Scales
+from .Chords import *  # Load the Chords
+from .Tunings import *  # Load the Tunings
+from .Progressions import *  # Load the Tunings
+from .TedGreene import *  # Load Ted Greene
+from .Exercises import *  # Load the Exercises
+from .Frequency import *  # Load the Sound Frequencies
 # Make all print statements in this program also go to a file
 import sys
 
@@ -51,9 +51,9 @@ def show_tabs(root_note, notes_per_string, start_interval, num_octaves, bool_fla
     try:  # See if the dict_tuning in the Settings.txt can be found
        bool_sharp_open = bool_sharp_scale(tuning_dict[Settings.dict_tuning])
     except KeyError:
-       print "Error: Can't find", "'"+Settings.dict_tuning+"'", "in tuning_dict. Change tuning in settings.txt"
+       print("Error: Can't find", "'"+Settings.dict_tuning+"'", "in tuning_dict. Change tuning in settings.txt")
 
-    fret_sym = unichr(124)
+    fret_sym = chr(124)
 
     # bool_scale = False
     if bool_scale == True:  # If you want a fretboard with scales
@@ -168,10 +168,10 @@ def show_tabs(root_note, notes_per_string, start_interval, num_octaves, bool_fla
 
     #if out_of_reach or bool_octave_leap:
     for string in reversed(string_notes):
-        print string
+        print(string)
     for leg in legend[:-1]:
-        print leg
-    print ""
+        print(leg)
+    print("")
 
 
 def scale_tabs_all_keys(default_settings):
@@ -186,11 +186,11 @@ def scale_tabs_all_keys(default_settings):
     else:
         my_exercise = 'All'                # Use 'All' to show all exercises with every key
 
-    print " "
-    print " "
-    print Settings.string_scale.title(), "Scale for 12 keys"
-    print "---------------------------------------------------------"
-    print "Notes per string:", notes_on_string, "  Start on interval:", start_on, "  Octaves:", octaves
+    print(" ")
+    print(" ")
+    print(Settings.string_scale.title(), "Scale for 12 keys")
+    print("---------------------------------------------------------")
+    print("Notes per string:", notes_on_string, "  Start on interval:", start_on, "  Octaves:", octaves)
 
     # Print the scales for each of the 12 keys
 
@@ -211,15 +211,15 @@ def scale_tabs_all_keys(default_settings):
     for Settings.root_note in notes_flat:
         valid_notes = return_scale_notes(Settings.root_note, scale_interval)
 
-        print ""
-        print "Scale Name:  ", Settings.root_note, Settings.string_scale
-        print "Steps:       ", scale_steps
-        print "Intervals:   ", ', '.join(scale_interval)
-        print "Scale Notes: ", ', '.join(valid_notes)
-        print ""
+        print("")
+        print("Scale Name:  ", Settings.root_note, Settings.string_scale)
+        print("Steps:       ", scale_steps)
+        print("Intervals:   ", ', '.join(scale_interval))
+        print("Scale Notes: ", ', '.join(valid_notes))
+        print("")
 
         show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat=True, bool_scale=True, bool_interval=False)
-        print ""
+        print("")
 
         for Sequence in scalesequence:   # Go through all patterns for the sequence
             e = Sequence["Exercise"]                        # eg Triad Arpeggio Sequence No. 1
@@ -230,7 +230,7 @@ def scale_tabs_all_keys(default_settings):
 
 
 def chord_tabs_all_chords():
-    print "x"
+    print("x")
 
 
 def return_sequence_string(pattern_name):
@@ -252,15 +252,15 @@ def return_sequence_string(pattern_name):
                         q = str(p).replace("'", "").replace("[", "").replace("]", "") # eg 1-3-5, 2-4-6, 3-5-7, 4-6-1, 5-7-2, 6-1-3, 7-2-4
                         d = ['-'.join(str(scale_interval[int(j-1)]) for j in i) for i in g]
                         f = str(d).replace("'", "").replace("[", "").replace("]", "")
-                        print e     # eg Triad Arpeggio Sequence No. 1
-                        print q     # eg 1-3-5, 2-4-6, 3-5-7, 4-6-1, 5-7-2, 6-1-3, 7-2-4
-                        print f     # eg 1-b3-b5, 2-3-bb6, b3-b5-bbb7, 3-bb6-1, b5-bbb7-2, bb6-1-b3, bbb7-2-3
+                        print(e)     # eg Triad Arpeggio Sequence No. 1
+                        print(q)     # eg 1-3-5, 2-4-6, 3-5-7, 4-6-1, 5-7-2, 6-1-3, 7-2-4
+                        print(f)     # eg 1-b3-b5, 2-3-bb6, b3-b5-bbb7, 3-bb6-1, b5-bbb7-2, bb6-1-b3, bbb7-2-3
                         return s
                     else:
-                        print Scale["Scale"], "scale only has", len(scale_interval), "degrees in", scale_interval
+                        print(Scale["Scale"], "scale only has", len(scale_interval), "degrees in", scale_interval)
             break
 
-    print "Could not find pattern:", pattern_name, "Scale:", Settings.string_scale
+    print("Could not find pattern:", pattern_name, "Scale:", Settings.string_scale)
     return None
 
 
@@ -268,24 +268,24 @@ def show_scale_exercises():
     scale_interval = return_scale_interval(Settings.string_scale)
     valid_notes = return_scale_notes(Settings.root_note, scale_interval)
 
-    print ""
-    print "SEQUENCE PATTERNS"
-    print "---------------------------------------------------------"
-    print ""
-    print "Melodic patterns and sequences are a way of playing scales to make them sound less like scales and more like music."
-    print "Practicing a wide range of sequences for each scale will cement your understanding of the pattern and the sound of the scale."
-    print "In addition, playing small patterns and sequences of a scale is common in soloing, so by practicing these sequences,"
-    print "you can begin to use scales melodically in your solos."
-    print ""
-    print "Sequence Patterns for", Settings.string_scale, "Scale"
-    print "Intervals:   ", ', '.join(scale_interval)
-    print "Scale Notes: ", ', '.join(valid_notes)
-    print ""
+    print("")
+    print("SEQUENCE PATTERNS")
+    print("---------------------------------------------------------")
+    print("")
+    print("Melodic patterns and sequences are a way of playing scales to make them sound less like scales and more like music.")
+    print("Practicing a wide range of sequences for each scale will cement your understanding of the pattern and the sound of the scale.")
+    print("In addition, playing small patterns and sequences of a scale is common in soloing, so by practicing these sequences,")
+    print("you can begin to use scales melodically in your solos.")
+    print("")
+    print("Sequence Patterns for", Settings.string_scale, "Scale")
+    print("Intervals:   ", ', '.join(scale_interval))
+    print("Scale Notes: ", ', '.join(valid_notes))
+    print("")
 
     show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat=True, bool_scale=True, bool_interval=False)
-    print ""
+    print("")
     show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat=True, bool_scale=True, bool_interval=True)
-    print ""
+    print("")
 
     for Sequence in scalesequence:   # Go through all patterns for the scale
         e = Sequence["Exercise"]                        # eg Triad Arpeggio Sequence No. 1
@@ -303,10 +303,10 @@ def show_scale_exercises():
 
                 d = ['-'.join(str(scale_interval[int(j-1)]) for j in i) for i in g]
                 f = str(d).replace("'", "").replace("[", "").replace("]", "")
-                print e     # eg Triad Arpeggio Sequence No. 1
-                print q     # eg 1-3-5, 2-4-6, 3-5-7, 4-6-1, 5-7-2, 6-1-3, 7-2-4
-                print f     # eg 1-b3-b5, 2-3-bb6, b3-b5-bbb7, 3-bb6-1, b5-bbb7-2, bb6-1-b3, bbb7-2-3
-                print ""
+                print(e)     # eg Triad Arpeggio Sequence No. 1
+                print(q)     # eg 1-3-5, 2-4-6, 3-5-7, 4-6-1, 5-7-2, 6-1-3, 7-2-4
+                print(f)     # eg 1-b3-b5, 2-3-bb6, b3-b5-bbb7, 3-bb6-1, b5-bbb7-2, bb6-1-b3, bbb7-2-3
+                print("")
                 break
 
 
@@ -336,9 +336,9 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
     try:  # See if the dict_tuning in the Settings.txt can be found
        bool_sharp_open = bool_sharp_scale(tuning_dict[Settings.dict_tuning])
     except KeyError:
-       print "Error: Can't find", "'"+Settings.dict_tuning+"'", "in tuning_dict. Change tuning in settings.txt"
+       print("Error: Can't find", "'"+Settings.dict_tuning+"'", "in tuning_dict. Change tuning in settings.txt")
 
-    fret_sym = unichr(124)
+    fret_sym = chr(124)
     chord_short = shorten_chord(Settings.chord_name)
 
     # bool_scale = False
@@ -365,7 +365,7 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
     #print "valid notes", valid_n, bool_flat
     #print "note", notes
     #print "notes", id(notes), "valid_n", id(valid_n), "notes_flat", id(notes_flat), "notes_sharp", id(notes_sharp)
-    for open_string in reversed(range(len(tuning_dict[Settings.dict_tuning]))):
+    for open_string in reversed(list(range(len(tuning_dict[Settings.dict_tuning])))):
         string_notes = ""
         o_string_note = tuning_dict[Settings.dict_tuning][open_string]  # Open string of the instrument
 
@@ -387,7 +387,7 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
                     if inte <= len(scale_interval):
                         fret_note = scale_interval[inte]
                     else:
-                        print "STOP", fret_note, "inte", inte, "len", len(scale_interval), valid_notes
+                        print("STOP", fret_note, "inte", inte, "len", len(scale_interval), valid_notes)
 
             if fret > 0:  # after the first fret
                 seg = "-" * (4 - len(fret_note))  # repeat the "-" chacter (4 times - the length of the fret note)
@@ -406,7 +406,7 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
                         seg = " " * (4 - len(fret_note))
                         string_notes = seg + string_notes + fret_note + fret_sym
 
-        print string_notes
+        print(string_notes)
 
     # print dots and/or fret numbers below the fretboard
     dots = ""
@@ -420,7 +420,7 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
         step_from_note = (fret) % 13
         dot = notes_dots[step_from_note]
 
-        if fret <> 0:
+        if fret != 0:
             dots = dots + dot
             if fret < 10:
                 frets = frets + "  " + str(fret) + "  "
@@ -430,9 +430,9 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
             dots = dots
             frets = frets + str(fret) + "  "
     if logical_frets == False:
-        print dots
+        print(dots)
     else:
-        print frets
+        print(frets)
 
 
 def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_scale, bool_interval,
@@ -449,7 +449,7 @@ def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, b
 
     # if any of the open strings are sharp or flat
     bool_sharp_open = bool_sharp_scale(tuning_dict[Settings.dict_tuning])
-    fret_sym = unichr(124)
+    fret_sym = chr(124)
     note_random = ''
     chord_short = shorten_chord(Settings.chord_name)
 
@@ -466,7 +466,7 @@ def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, b
         notes = notes_flat
         step_from_note = (notes.index(o_string_random) + fret_random) % 12
         note_random = notes[step_from_note]
-        print "Open String:", o_string_random, " Fret:", fret_random  # , " Min:", fret_min, " Max:", fret_max, " Random note:", note_random
+        print("Open String:", o_string_random, " Fret:", fret_random)  # , " Min:", fret_min, " Max:", fret_max, " Random note:", note_random
 
     # bool_scale = False
     if bool_scale == True:  # If you want a fretboard with scales
@@ -482,7 +482,7 @@ def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, b
     else:  # If you want a fretboard with chords
         scale_interval = chord_dict[chord_short][1:]
 
-    for open_string in reversed(range(len(tuning_dict[Settings.dict_tuning]))):
+    for open_string in reversed(list(range(len(tuning_dict[Settings.dict_tuning])))):
         string_notes = ""
         o_string_note = tuning_dict[Settings.dict_tuning][open_string]  # Open string of the instrument
 
@@ -512,7 +512,7 @@ def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, b
                 if fret_note in valid_notes:
                     inte = valid_notes.index(fret_note)  # index of the fret_note relative to the root note
                     if inte >= len(valid_notes):
-                        print "STOP", fret_note, "inte", inte, "len", len(valid_notes), valid_notes
+                        print("STOP", fret_note, "inte", inte, "len", len(valid_notes), valid_notes)
                     else:
                         # print fret_note, inte, scale_interval[inte]
                         if bool_interval == True:
@@ -537,7 +537,7 @@ def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, b
                         seg = " " * (4 - len(fret_note))
                         string_notes = seg + string_notes + fret_note + fret_sym
 
-        print string_notes
+        print(string_notes)
 
     # print dots and/or fret numbers below the fretboard
     dots = ""
@@ -551,7 +551,7 @@ def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, b
         step_from_note = (fret) % 13
         dot = notes_dots[step_from_note]
 
-        if fret <> 0:
+        if fret != 0:
             dots = dots + dot
             if fret < 10:
                 frets = frets + "  " + str(fret) + "  "
@@ -561,9 +561,9 @@ def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, b
             dots = dots
             frets = frets + str(fret) + "  "
     if logical_frets == False:
-        print dots
+        print(dots)
     else:
-        print frets
+        print(frets)
 
     return [note_random, o_string_random, fret_random]
 
@@ -585,7 +585,7 @@ def show_fretboard_score(score_board, m, n, notes_dots, position):
         step_from_note = (fret) % 13
         dot = notes_dots[step_from_note]
 
-        if fret <> 0:
+        if fret != 0:
             dots = dots + dot
             if fret < 10:
                 frets = frets + "  " + str(fret) + "  "
@@ -595,9 +595,9 @@ def show_fretboard_score(score_board, m, n, notes_dots, position):
             dots = dots
             frets = frets + str(fret) + "  "
     if logical_frets == False:
-        print dots
+        print(dots)
     else:
-        print frets
+        print(frets)
 
     string_notes = ""
     fret_note = ""
@@ -609,7 +609,7 @@ def show_fretboard_score(score_board, m, n, notes_dots, position):
     # The last element has the score, so we leave this out by using [:-1]
     openstrings = [OpenString[0][0] for OpenString in score_board[:-1]]  # Open Letters eg ['B','E','A','D','G']
     bool_sharp_open = bool_sharp_scale(openstrings)
-    fret_sym = unichr(124)  # Big round O for the fret dots
+    fret_sym = chr(124)  # Big round O for the fret dots
 
     for O_string in range(m, -1, -1):  # rows / open strings
         string_notes = ""
@@ -647,28 +647,28 @@ def show_fretboard_score(score_board, m, n, notes_dots, position):
 
         if O_string < m:
             # Each open string with the sum of the string total. Format is: string + "Sum X:" + score
-            print string_notes, " " + str(score_board[O_string][n][0]) + ":", score_board[O_string][n][position]
+            print(string_notes, " " + str(score_board[O_string][n][0]) + ":", score_board[O_string][n][position])
 
-    print ""
+    print("")
     # Total Score with totals for each fret + final score out of all the questions
-    print string_score[1:], " ", str(score_board[m][n][position]) + "/" + str(
-        score_board[m][n][1] + score_board[m][n][2])
+    print(string_score[1:], " ", str(score_board[m][n][position]) + "/" + str(
+        score_board[m][n][1] + score_board[m][n][2]))
     # Total percentages for each fret + final score out of all the questions
-    print string_percent[1:], " ", "%.2f%%" % (
-        100 * score_board[m][n][position] / (score_board[m][n][1] + score_board[m][n][2]))
+    print(string_percent[1:], " ", "%.2f%%" % (
+        100 * score_board[m][n][position] / (score_board[m][n][1] + score_board[m][n][2])))
 
 
 def is_equivalent_notes(note1, note2):
     # print note1, note2
 
-    if (note1 == note2) and len(note1) <> 0:  # The note is exactly the same and not blank
+    if (note1 == note2) and len(note1) != 0:  # The note is exactly the same and not blank
         return True
 
-    if len(note1) == 1 and len(note2) == 1 and note1 <> note2:  # The notes have no flats or sharp and are not equal
+    if len(note1) == 1 and len(note2) == 1 and note1 != note2:  # The notes have no flats or sharp and are not equal
         return False
 
     if (len(note1) > 1 or len(note2) > 1) and (
-                    len(note1) <> 0 and len(note2) <> 0):  # At least one of the notes has a flat or sharp
+                    len(note1) != 0 and len(note2) != 0):  # At least one of the notes has a flat or sharp
         a1 = note1.count('b')
         b1 = note1.count('#')
         a2 = note2.count('b')
@@ -726,7 +726,7 @@ def convert_note(notelist):
             notes_reverse.append(notes_sharp[index2])
             continue
         if index1 < 0 and index2 < 0:
-            print "Convert: Note", note, "doesn't exist", copy_notelist, type(note), type(copy_notelist)
+            print("Convert: Note", note, "doesn't exist", copy_notelist, type(note), type(copy_notelist))
     #print notelist, notes_reverse
 
     if return_string == False:
@@ -756,7 +756,7 @@ def flat(some_notelist):
             else:
                 flat_notelist[idx] = copy_notelist[idx]
     else:
-        print "Flat: List", copy_notelist, "has invalid notes", switch, some_notelist
+        print("Flat: List", copy_notelist, "has invalid notes", switch, some_notelist)
 
     if return_string == False:
         return flat_notelist
@@ -785,7 +785,7 @@ def sharp(some_notelist):
             else:
                 sharp_notelist[idx] = copy_notelist[idx]
     else:
-        print "Sharp: List", copy_notelist, "has invalid notes", switch, some_notelist
+        print("Sharp: List", copy_notelist, "has invalid notes", switch, some_notelist)
 
     if return_string == False:
         return sharp_notelist
@@ -806,9 +806,9 @@ def interval_trainer(no_questions):
     # half_steps is an integer that references the half steps in an interval
     # eg The half step 0 is interval '1'. The half step 7 is interval '5'
 
-    print ""
-    print "INTERVAL TRAINER"
-    print "---------------------------------------------------------"
+    print("")
+    print("INTERVAL TRAINER")
+    print("---------------------------------------------------------")
 
     interval_menu = {}
     interval_menu[0] = "All intervals (1st Octave)"
@@ -820,14 +820,14 @@ def interval_trainer(no_questions):
     interval_menu[6] = "Exit"
 
     while True:
-        options = interval_menu.keys()
-        print ""
-        print "INTERVAL MENU"
+        options = list(interval_menu.keys())
+        print("")
+        print("INTERVAL MENU")
         for entry in options:
-            print str(entry) + ".", interval_menu[entry]
-        print ""
+            print(str(entry) + ".", interval_menu[entry])
+        print("")
 
-        selection = raw_input("Please Select: ").strip()
+        selection = input("Please Select: ").strip()
         if bool_int(selection):  # if selection is an integer
             selection = int(selection)
             if int(selection) % 2 == 0:
@@ -856,36 +856,36 @@ def interval_trainer(no_questions):
             elif selection == 6:
                 exit()
         else:
-            print "Unknown option", selection, "selected!"
-            print ""
+            print("Unknown option", selection, "selected!")
+            print("")
 
-    print ""
-    print "Your available intervals are"
-    print interval_choice
-    print ""
+    print("")
+    print("Your available intervals are")
+    print(interval_choice)
+    print("")
 
-    print "Guess the semi-tone for these " + str(no_questions) + " questions for the", octave
+    print("Guess the semi-tone for these " + str(no_questions) + " questions for the", octave)
     score = 0
     start = time.time()  # timer
     for i in range(0, no_questions):
         random_interval = random.choice(interval_choice)
-        print ""
-        print "Q." + str(i + 1) + " What semi-tone is interval " + str(
+        print("")
+        print("Q." + str(i + 1) + " What semi-tone is interval " + str(
             random_interval) + "? " + "For eg semi-tones between " + Settings.root_note + "-" + \
-              return_scale_notes(Settings.root_note, random_interval.split())[0]
+              return_scale_notes(Settings.root_note, random_interval.split())[0])
 
-        user_semitone = raw_input()
+        user_semitone = input()
         if str(user_semitone.lower()) == str(steps_octave.index(random_interval)):
-            print user_semitone.lower(), "is correct!"
+            print(user_semitone.lower(), "is correct!")
             score = score + 1
         else:
-            print "The correct answer is", steps_octave.index(random_interval)
+            print("The correct answer is", steps_octave.index(random_interval))
 
     end = time.time()  # timer
-    print ""
-    print "SCORE"
-    print "You got a score of", str(score) + "/" + str(no_questions), "- that's", "%.2f%%" % (
-        100 * score / no_questions), "in", round(end - start, 2), "seconds"
+    print("")
+    print("SCORE")
+    print("You got a score of", str(score) + "/" + str(no_questions), "- that's", "%.2f%%" % (
+        100 * score / no_questions), "in", round(end - start, 2), "seconds")
 
 
 def return_chord_notes(root_note, chord_name):  # root_note is a string
@@ -926,7 +926,7 @@ def return_chord_interval(chord_name):
         try:
             interval = chord_dict[chord_name][chord]  # intervals is a list eg ['1','b3','7']
         except:
-            print "Could not find", chord_name
+            print("Could not find", chord_name)
     return interval
 
 
@@ -959,7 +959,7 @@ def return_semitones(intervals):
         try:
             semitone = (steps.index(interval_temp) + step) % 12
         except:
-            print "Invalid interval", interval_temp
+            print("Invalid interval", interval_temp)
 
         semitones.append(semitone)
     return semitones
@@ -1022,18 +1022,18 @@ def show_mitchell_tunings():
     # http://www.jonimitchell.com/music/notation.cfm
 
     instrument_short = str(Settings.instrument + " " + Settings.string_no)
-    print ""
-    print "Joni Mitchell Tuning Notation For", Settings.string_no, "String", str(Settings.instrument).title()
-    print ""
-    print "Instead of writing out guitar tunings using the note names for each string Joni"
-    print "herself uses a notation system of the bottom (lowest pitch) string followed"
-    print "by the fret numbers which you play to tune the next highest open string."
-    print "For example for a 6-string guitar in standard tuning she would write:"
-    print "[E, A, D, G, B, E] = [E, 5, 5, 5, 4, 5]"
-    print ""
+    print("")
+    print("Joni Mitchell Tuning Notation For", Settings.string_no, "String", str(Settings.instrument).title())
+    print("")
+    print("Instead of writing out guitar tunings using the note names for each string Joni")
+    print("herself uses a notation system of the bottom (lowest pitch) string followed")
+    print("by the fret numbers which you play to tune the next highest open string.")
+    print("For example for a 6-string guitar in standard tuning she would write:")
+    print("[E, A, D, G, B, E] = [E, 5, 5, 5, 4, 5]")
+    print("")
 
     a = {}
-    for tuning, val in tuning_dict.iteritems():
+    for tuning, val in tuning_dict.items():
         if instrument_short.lower() in tuning.lower():
             short_tuning = str(tuning).replace(instrument_short, "").strip()
             jm_tuning = joni_mitchell_tuning(tuning)
@@ -1042,17 +1042,17 @@ def show_mitchell_tunings():
             # print short_tuning + ":", (" ".join(val)), "=", " ".join(map(str, jm_tuning))  # Show list without quotes or square brackets
             a[short_tuning + ": " + (" ".join(val))] = " ".join(map(str, jm_tuning))  # Creating a new dictionary. Format: a={('Standard': 'E 5 5 5 4 5')}
 
-    print "Joni Mitchel Tuning Families"
-    print ""
-    print "Joni's system of tuning notation makes comparisons between different tunings much easier by"
-    print "helping us find open string tuning 'families' which can be sorted by frets as in this list."
-    print ""
+    print("Joni Mitchel Tuning Families")
+    print("")
+    print("Joni's system of tuning notation makes comparisons between different tunings much easier by")
+    print("helping us find open string tuning 'families' which can be sorted by frets as in this list.")
+    print("")
 
     # Sort the dictionary by the frets
     # eg Ostrich:  D D D D D D = D 0 0 0 0 0 comes first, and
     # Rusty Cage:  B A D G B E = B 10 5 5 4 5 last
-    for k, v in sorted(a.items(), key=lambda t: get_key(str(t[1][1:]).replace(" ", "").replace("#", "").replace("b", ""))):
-        print k, "=", v
+    for k, v in sorted(list(a.items()), key=lambda t: get_key(str(t[1][1:]).replace(" ", "").replace("#", "").replace("b", ""))):
+        print(k, "=", v)
 
 def return_scale_notes(root_note, intervals):  # root_note is a string, intervals is a list eg ['1','b3','7']
     # Print out the interval, note, half-step, and note for the chosen chord
@@ -1084,7 +1084,7 @@ def return_scale_notes(root_note, intervals):  # root_note is a string, interval
             # find the number of the interval, then add/substract the number of sharps/flats
             step_from_note = (notes.index(root_note) + steps_octave.index(interval_temp) + step) % 12
         except:
-            print "root note or interval does not exist", root_note, b, h, intervals, inter, interval_temp
+            print("root note or interval does not exist", root_note, b, h, intervals, inter, interval_temp)
 
         # add valid notes to notes_from_root
         notes_from_root.append(notes[step_from_note])
@@ -1117,46 +1117,46 @@ def last_fret_stretch(Fret1, HandStretch, ratio, fret_length):
 
 
 def show_stretch_distance():
-    print ""
-    print "FINGER REACH"
-    print "---------------------------------------------------------"
-    print ""
-    print "How far can your finger reach from each fret?"
-    print ""
-    print "The first fret will have unit of 1 for the multiplier and be"
-    print "multiplied with the ratio 2^(-1/12) = ", "{0:.4}".format(SemiToneRatio), "for each following fret."
-    print ""
-    print "The length of your first fret is", "{0:.4}".format(
+    print("")
+    print("FINGER REACH")
+    print("---------------------------------------------------------")
+    print("")
+    print("How far can your finger reach from each fret?")
+    print("")
+    print("The first fret will have unit of 1 for the multiplier and be")
+    print("multiplied with the ratio 2^(-1/12) = ", "{0:.4}".format(SemiToneRatio), "for each following fret.")
+    print("")
+    print("The length of your first fret is", "{0:.4}".format(
         Fret_1_Length) + "cm", "and up to fret 21 it is", "{0:.4}".format(
-        fret_distance(0, 21, SemiToneRatio, Fret_1_Length)) + "cm"
-    print ""
-    print "fret, multiplier, fret length, sum, last reachable fret, fret span"
+        fret_distance(0, 21, SemiToneRatio, Fret_1_Length)) + "cm")
+    print("")
+    print("fret, multiplier, fret length, sum, last reachable fret, fret span")
     LastReachable = 0
     sum = 0
     for fret in range(1, 22):  # Geometric sequence
         sum = sum + Fret_1_Length * SemiToneRatio ** (fret - 1)
         LastReachable = last_fret_stretch(fret, Reach21, SemiToneRatio, Fret_1_Length)
-        print "Fret", fret, ",", "{0:.3}".format(SemiToneRatio ** (fret - 1)) + " units", ",", "{0:.3}".format(
+        print("Fret", fret, ",", "{0:.3}".format(SemiToneRatio ** (fret - 1)) + " units", ",", "{0:.3}".format(
             Fret_1_Length * SemiToneRatio ** (fret - 1)) + "cm", ",", "{0:.3}".format(
-            sum) + "cm", ",", LastReachable, ",", LastReachable + 1 - fret
+            sum) + "cm", ",", LastReachable, ",", LastReachable + 1 - fret)
 
 
 def mental_fretboard_trainer(no_questions):
     # Randomly select one open string from the instrument and the tuning and one random fret
 
-    print ""
-    print "MENTAL FRETBOARD TRAINER"
-    print "---------------------------------------------------------"
+    print("")
+    print("MENTAL FRETBOARD TRAINER")
+    print("---------------------------------------------------------")
 
     score = 0
     user_note = ""
 
-    print ""
-    print "Let's check your fretboard knowledge with these", no_questions, "questions"
+    print("")
+    print("Let's check your fretboard knowledge with these", no_questions, "questions")
 
-    print ""
+    print("")
     for i in range(0, no_questions):
-        print "Q." + str(i + 1), "What is the note on the following string and fret number?"
+        print("Q." + str(i + 1), "What is the note on the following string and fret number?")
 
         rand_string = random.randint(0, int(
             Settings.string_no) - 1)  # Random number up to string number (eg 0-5 for guitar)
@@ -1167,37 +1167,37 @@ def mental_fretboard_trainer(no_questions):
         step_from_note = (notes.index(o_string_note) + rand_fret) % 12
         fret_note = notes[step_from_note]
 
-        print "Open String:", tuning_dict[Settings.dict_tuning][rand_string], " Fret:", rand_fret  # Open String
+        print("Open String:", tuning_dict[Settings.dict_tuning][rand_string], " Fret:", rand_fret)  # Open String
 
-        user_note = raw_input()
+        user_note = input()
         if user_note.title() == fret_note.title():
-            print user_note.title(), "is correct!"
-            print ""
+            print(user_note.title(), "is correct!")
+            print("")
             score = score + 1
         else:
-            print "The correct answer is", fret_note, "=", o_string_note, "+", rand_fret, "= (", notes.index(
-                o_string_note), "+", rand_fret, ") % 12 =", step_from_note
-            print ""
+            print("The correct answer is", fret_note, "=", o_string_note, "+", rand_fret, "= (", notes.index(
+                o_string_note), "+", rand_fret, ") % 12 =", step_from_note)
+            print("")
 
-    print ""
-    print "SCORE"
-    print "You got a score of", score, "out of", no_questions, "- that's", "%.2f%%" % (
-        100 * score / no_questions)  # Percent score
+    print("")
+    print("SCORE")
+    print("You got a score of", score, "out of", no_questions, "- that's", "%.2f%%" % (
+        100 * score / no_questions))  # Percent score
 
 
 def visual_fretboard_trainer(no_questions):
-    print ""
-    print ""
+    print("")
+    print("")
     instrument_details = Settings.string_no.title() + " String " + Settings.instrument.title() + " in " + Settings.tuning_short + " Tuning"
-    print "VISUAL FRETBOARD TRAINER - " + instrument_details.upper()
-    print "---------------------------------------------------------"
+    print("VISUAL FRETBOARD TRAINER - " + instrument_details.upper())
+    print("---------------------------------------------------------")
 
     LoadAndSave = False
     if Settings.load_and_save.title() not in ['Y', 'YES', 'N', 'NO']:
-        print "Would you like to load your old score and save back to it? Press Y or N"
+        print("Would you like to load your old score and save back to it? Press Y or N")
         while True:
             try:
-                YesNo = raw_input()  # User input for Y or N
+                YesNo = input()  # User input for Y or N
             except ValueError:
                 print("Sorry, I didn't understand that.")
                 continue
@@ -1219,9 +1219,9 @@ def visual_fretboard_trainer(no_questions):
         if Settings.load_and_save.title() in ['N', 'NO']:
             LoadAndSave = False
 
-    print ""
-    print "Guess These " + str(no_questions) + " Random Notes on the Fretboard"
-    print ""
+    print("")
+    print("Guess These " + str(no_questions) + " Random Notes on the Fretboard")
+    print("")
 
     # We measure the user's knowledge of the fretboard by
     # recording for each note a positive and a negative score
@@ -1255,8 +1255,8 @@ def visual_fretboard_trainer(no_questions):
                 # print ""
                 pass
         except IOError as e:
-            print "Unable to open score_board file"  # Does not exist OR no read permissions
-            print ""
+            print("Unable to open score_board file")  # Does not exist OR no read permissions
+            print("")
             initiate_scoreboard = True
 
     note_board = [[note, 0, 0] for note in notes]  # scores for each note with [Note, positive score, negative score]
@@ -1285,11 +1285,11 @@ def visual_fretboard_trainer(no_questions):
                         score_board[i][j] = ["Final Score", 0, 0]
 
     if len(Settings.o_string_train.strip()) == 0:
-        print "Training from frets", Settings.fret_train_min, "to", Settings.fret_train_max, "for tuning", tuning_dict[
-            Settings.dict_tuning]
+        print("Training from frets", Settings.fret_train_min, "to", Settings.fret_train_max, "for tuning", tuning_dict[
+            Settings.dict_tuning])
     else:
-        print "Training on", Settings.o_string_train, "Open string from fret", Settings.fret_train_min, "to", Settings.fret_train_max
-    print ""
+        print("Training on", Settings.o_string_train, "Open string from fret", Settings.fret_train_min, "to", Settings.fret_train_max)
+    print("")
 
     for Scale in ListScales:  # s = scale, h = H_Steps, i = interval (L_Steps)
         # print Scale["Scale"], Scale["H_Steps"], Scale["L_Steps"]
@@ -1311,9 +1311,9 @@ def visual_fretboard_trainer(no_questions):
         O_string = rand_array[1]  # Randomly chosen open string
         fret_no = rand_array[2]  # random fret chosen in the training module
 
-        print ""
-        print "Q" + str(
-            i + 1) + ": What note is represented by the X on your " + Settings.string_no.title() + " string " + Settings.instrument.title() + "?"
+        print("")
+        print("Q" + str(
+            i + 1) + ": What note is represented by the X on your " + Settings.string_no.title() + " string " + Settings.instrument.title() + "?")
         # print fret_no, "?", "note", note_random, "Ostring", O_string, "string_y", string_y
 
         # Add the correct note 12x to the list of flat notes. Then randomly select one.
@@ -1321,13 +1321,13 @@ def visual_fretboard_trainer(no_questions):
         pool = [note_random for i in range(0, 11)]  # Temp list to increase the chance of getting the right answer.
 
         # user_note = random.choice(notes_flat + pool)  # computer plays guessing game with itself
-        user_note = raw_input()  # User input for visual fretboard trainer
+        user_note = input()  # User input for visual fretboard trainer
         score += 1
 
         # print string_y, O_string, tuning_dict[Settings.dict_tuning][string_y]
         if is_equivalent_notes(user_note, note_random):
-            print user_note.title(), "is correct!"
-            print ""
+            print(user_note.title(), "is correct!")
+            print("")
             # Positive scores
             # finds all the indexes (eg 0 and 5 on a 6 string guitar) with the same O_string (eg two E's)
             y = [i for i, x in enumerate(tuning_dict[Settings.dict_tuning]) if x == O_string]
@@ -1340,8 +1340,8 @@ def visual_fretboard_trainer(no_questions):
             score_pos += 1
             note_board[notes.index(note_random)][1] += 1
         else:
-            print "The correct answer is", note_random
-            print ""
+            print("The correct answer is", note_random)
+            print("")
             # Negative scores
             # finds all the indexes (eg 0 and 5 on a 6 string guitar) with the same O_string (eg two E's)
             y = [i for i, x in enumerate(tuning_dict[Settings.dict_tuning]) if x == O_string]
@@ -1356,34 +1356,34 @@ def visual_fretboard_trainer(no_questions):
 
     end = time.time()  # timer
 
-    print ""
-    print "SCORE"
-    print "You got a score of", score_pos, "out of", score, "- that's", "%.2f%%" % (
-        100 * score_pos / score), "in", round(end - start, 2), "seconds"
+    print("")
+    print("SCORE")
+    print("You got a score of", score_pos, "out of", score, "- that's", "%.2f%%" % (
+        100 * score_pos / score), "in", round(end - start, 2), "seconds")
 
-    print ""
-    print ""
-    print "Positive scores on the " + Settings.string_no.title() + " string " + Settings.instrument.lower() + " fretboard"
-    print ""
+    print("")
+    print("")
+    print("Positive scores on the " + Settings.string_no.title() + " string " + Settings.instrument.lower() + " fretboard")
+    print("")
     show_fretboard_score(score_board, m, n, notes_dots, 1)
-    print ""
-    print ""
-    print "Negative scores on the " + Settings.string_no.title() + " string " + Settings.instrument.lower() + " fretboard"
-    print ""
+    print("")
+    print("")
+    print("Negative scores on the " + Settings.string_no.title() + " string " + Settings.instrument.lower() + " fretboard")
+    print("")
     show_fretboard_score(score_board, m, n, notes_dots, 2)
-    print ""
+    print("")
 
-    print ""
-    print "Scores for each note:"
-    print "Note, pos, neg"
+    print("")
+    print("Scores for each note:")
+    print("Note, pos, neg")
     for sum_note in note_board:
         score_pos = sum_note[1]
         score_neg = sum_note[2]
         score = score_pos + score_neg
         if score > 0:  # no divide by zero error
-            print sum_note, "-", "%.2f%%" % (100 * score_pos / (score_pos + score_neg))
+            print(sum_note, "-", "%.2f%%" % (100 * score_pos / (score_pos + score_neg)))
         else:
-            print sum_note
+            print(sum_note)
 
     if LoadAndSave:
         try:
@@ -1432,18 +1432,18 @@ def bool_sharp_scale(scales):
 def show_all_notes_on_fretboard():
     temp_scale = Settings.string_scale
     Settings.string_scale = 'All'
-    print ""
-    print "Show All Notes On The Fretboard"
-    print ""
+    print("")
+    print("Show All Notes On The Fretboard")
+    print("")
     show_fretboard(tuning_dict, notes_sharp, notes_flat, notes_sharp, bool_flat=True, bool_scale=True,
                    bool_interval=False)
-    print ""
+    print("")
     show_fretboard(tuning_dict, notes_sharp, notes_flat, notes_flat, bool_flat=False, bool_scale=True,
                    bool_interval=False)
-    print ""
+    print("")
     show_fretboard(tuning_dict, notes_sharp, notes_flat, notes_sharp, bool_flat=True, bool_scale=True,
                    bool_interval=True)
-    print ""
+    print("")
     Settings.string_scale = temp_scale  # set back to original value for scale
 
 
@@ -1452,10 +1452,10 @@ def change_settings():
     # False = Don't show intervals on fretboard,  True = Show notes on fretboard
     bool_interval = False
 
-    print " "
-    print "Would you like a guitar or a bass?"
+    print(" ")
+    print("Would you like a guitar or a bass?")
     while True:
-        Settings.instrument = raw_input().title()
+        Settings.instrument = input().title()
         # instrument = 'Guitar'
         if len(Settings.instrument) == 0:  # If nothing was entered, set the default to guitar"
             Settings.instrument = 'Guitar'
@@ -1465,28 +1465,28 @@ def change_settings():
         if Settings.instrument == 'Guitar':
             break
         else:
-            print "Only guitar and bass are allowed. Your " + Settings.instrument + " is not."
-    print "Selection: " + Settings.instrument
-    print " "
+            print("Only guitar and bass are allowed. Your " + Settings.instrument + " is not.")
+    print("Selection: " + Settings.instrument)
+    print(" ")
 
     # print distinct list of strings the instrument can have
-    print "Your string options for " + Settings.instrument + " are:"
+    print("Your string options for " + Settings.instrument + " are:")
     instrument_list = []
 
-    for tuning_i, notes in tuning_dict.iteritems():
+    for tuning_i, notes in tuning_dict.items():
         # print "RE", re.findall('\d+', tuning)[0], tuning
         strings_inst = re.findall('\d+', tuning_i)[0]  # creates a list of all the strings that an instrument can have
         if Settings.instrument.lower() in tuning_i.lower():
             if (strings_inst + " String " + Settings.instrument) not in instrument_list:
                 instrument_list.append(strings_inst + " String " + Settings.instrument)
-    print instrument_list
-    print " "
+    print(instrument_list)
+    print(" ")
 
     # find the number of strings the instrument has
-    print "How many strings does your " + Settings.instrument.lower() + " have?"
+    print("How many strings does your " + Settings.instrument.lower() + " have?")
     valid_strings = False
     while not valid_strings:
-        Settings.string_no = raw_input().strip()
+        Settings.string_no = input().strip()
         # print "STRING NO", string_no
         if bool_int(Settings.string_no):
             if len(Settings.string_no) == 0:
@@ -1504,40 +1504,40 @@ def change_settings():
                 if Settings.instrument == 'Guitar' and (int(Settings.string_no) >= 5 and int(Settings.string_no) < 8):
                     valid_strings = True
             else:
-                print "Not a valid number for " + Settings.instrument.lower()
-    print "Selection:", Settings.string_no
-    print " "
+                print("Not a valid number for " + Settings.instrument.lower())
+    print("Selection:", Settings.string_no)
+    print(" ")
 
     # Show possible tuning for the instrument and string number
-    print "What tuning does your " + Settings.string_no + " string " + Settings.instrument.lower() + " have?"
+    print("What tuning does your " + Settings.string_no + " string " + Settings.instrument.lower() + " have?")
     if len(Settings.tuning_short) == 0:
-        for tuning_i, notes in tuning_dict.iteritems():
+        for tuning_i, notes in tuning_dict.items():
             if str(Settings.instrument.lower() + " " + Settings.string_no) in tuning_i.lower():
                 # possible_tuning =  tuning_i.replace(instrument, "").replace(string_no, "")
                 possible_tuning = tuning_i.replace(Settings.instrument + " " + Settings.string_no, "")
-                print possible_tuning
-        print "Please select your tuning from the above list for your " + Settings.string_no + " string "
+                print(possible_tuning)
+        print("Please select your tuning from the above list for your " + Settings.string_no + " string ")
 
     # Exit out of this loop if someone enters a bad selection 5 times
     count = 0
     while count <= 5:
-        Settings.tuning_short = raw_input().title()
+        Settings.tuning_short = input().title()
         # tuning = 'Standard'
         # If no tuning is selected set defaults
         # print "TUNING", tuning, "STRING NO", string_no, "INSTRUMENT", instrument
         if len(Settings.tuning_short) == 0:
             if Settings.instrument == 'Guitar':
                 Settings.tuning_short = 'Standard'
-                print "AAA 1"
+                print("AAA 1")
             if Settings.instrument == 'Bass':
                 if Settings.string_no == '4':
-                    print "AAA 2"
+                    print("AAA 2")
                     Settings.tuning_short = 'Standard'
                 if Settings.string_no == '5':
-                    print "AAA 3"
+                    print("AAA 3")
                     Settings.tuning_short = 'Standard B'
                 if Settings.string_no == '6':
-                    print "AAA 4"
+                    print("AAA 4")
                     Settings.tuning_short = 'Standard'
             your_tuning = str(Settings.instrument + " " + Settings.string_no + " " + Settings.tuning_short).title()
             count = count + 1
@@ -1546,17 +1546,17 @@ def change_settings():
             your_tuning = str(Settings.instrument + " " + Settings.string_no + " " + Settings.tuning_short).title()
             # print "dict", tuning_dict[your_tuning]
             # print "Strip:", your_tuning.title().strip()
-            if your_tuning.title() in tuning_dict.keys():
+            if your_tuning.title() in list(tuning_dict.keys()):
                 your_tuning = str(Settings.instrument + " " + Settings.string_no + " " + Settings.tuning_short).title()
                 # print "FOUND", your_tuning, "in tuning_dict"
                 break
             else:
-                print "Not valid tuning"
+                print("Not valid tuning")
                 count = count + 1
                 break
-    print "Selection:", Settings.tuning_short
-    print " "
-    print "Tuning Instrument:", your_tuning.title()
+    print("Selection:", Settings.tuning_short)
+    print(" ")
+    print("Tuning Instrument:", your_tuning.title())
 
     # randomly chose either flats or sharp to display on fretboard
     if randint(0, 1) == 0:  # random number 0 or 1
@@ -1567,21 +1567,21 @@ def change_settings():
     Settings.tuning_short = your_tuning
 
     # print a character map of the fretboard for the instrument with the selected tuning
-    print "Tuning:", tuning_dict[Settings.dict_tuning]
-    print " "
+    print("Tuning:", tuning_dict[Settings.dict_tuning])
+    print(" ")
 
     # print "Intervals and their half-steps"
     # for chord in steps:
     #    print chord, steps.index(chord)
     # print "---------------------------------------------------------"
 
-    print " "
+    print(" ")
 
     # Continue while loop till a vaild note is chosen
     while True:
-        print "Enter root note: (eg " + random.choice(notes_flat) + ")"
+        print("Enter root note: (eg " + random.choice(notes_flat) + ")")
         # root_note = raw_input().title()   #eg C
-        print "Selection:", Settings.root_note
+        print("Selection:", Settings.root_note)
         if len(Settings.root_note) == 0:  # If nothing was entered, set the default to "A"
             Settings.root_note = "A"
             break
@@ -1592,25 +1592,25 @@ def change_settings():
             notes = notes_sharp
             break
         else:
-            print Settings.root_note, " is an invalid note"
+            print(Settings.root_note, " is an invalid note")
 
-    print " "
-    print "---------------------------------------------------------"
+    print(" ")
+    print("---------------------------------------------------------")
 
     # Show list of possible chords to chose from
     chord_str = ''
-    print "Chose your chord from the following list:"
+    print("Chose your chord from the following list:")
     for chord, chord_short in sorted(chord_dict.items()):
         chord_str = chord_str + chord_short[0] + ', '
-    print chord_str[:-2]  # remove the last comma
-    print "---------------------------------------------------------"
+    print(chord_str[:-2])  # remove the last comma
+    print("---------------------------------------------------------")
 
     # Enter your chosen chord
     valid_chord = False
     # chord_name = ""
     chord_chosen_short = shorten_chord(Settings.chord_name)
     while not (valid_chord):  # Continue the while loop till a valid chord is chosen
-        print "Enter chord type: (eg " + random.choice(chord_dict.keys()) + ")"
+        print("Enter chord type: (eg " + random.choice(list(chord_dict.keys())) + ")")
         # chord_name = raw_input().strip().lower()
         # chord_name = '7#9#5'
         # print len(chord_name), chord_name
@@ -1618,11 +1618,11 @@ def change_settings():
             chord_short = "major"
             valid_chord = True
             break
-        if chord_short in chord_dict.keys():  # Find the chord name in the key to the chord dictionary
+        if chord_short in list(chord_dict.keys()):  # Find the chord name in the key to the chord dictionary
             valid_chord = True
             break
         else:
-            for chord, chord_short in chord_dict.iteritems():
+            for chord, chord_short in chord_dict.items():
                 if chord_chosen_short == chord_short[0] or chord_chosen_short == chord_dict[chord][0]:
                     # print "Chord:", chord_name, chord
                     chord_chosen_short = chord
@@ -1632,14 +1632,14 @@ def change_settings():
                 break
             else:
                 valid_chord = False
-                print Settings.chord_name, " is an invalid chord"
-    print "Chord:", chord_chosen_short
-    print "---------------------------------------------------------"
+                print(Settings.chord_name, " is an invalid chord")
+    print("Chord:", chord_chosen_short)
+    print("---------------------------------------------------------")
 
     # Print out the interval, note, half-step, and note for the chosen chord
-    print "Root note:", Settings.root_note
-    print "Chord Dictionary: ", Settings.chord_name, ":", chord_dict[chord_chosen_short]
-    print "Interval, steps, note"
+    print("Root note:", Settings.root_note)
+    print("Chord Dictionary: ", Settings.chord_name, ":", chord_dict[chord_chosen_short])
+    print("Interval, steps, note")
     chord_notes = list()
     for chord in range(1, len(chord_dict[chord_chosen_short])):
         interval = chord_dict[chord_chosen_short][chord]
@@ -1662,47 +1662,47 @@ def change_settings():
 
         # add valid notes to chord_notes
         chord_notes.append(notes[step_from_note])
-        print interval, steps.index(interval_temp) + step, notes[step_from_note]
-    print "---------------------------------------------------------"
+        print(interval, steps.index(interval_temp) + step, notes[step_from_note])
+    print("---------------------------------------------------------")
 
     # print "Chord notes: ", chord_notes
     # print "---------------------------------------------------------"
 
-    print "Valid notes:", chord_notes
-    print " "
+    print("Valid notes:", chord_notes)
+    print(" ")
 
     show_fretboard(tuning_dict, notes_sharp, notes_flat, chord_notes, bool_flat=True, bool_scale=False,
                    bool_interval=False)
-    print " "
+    print(" ")
     show_fretboard(tuning_dict, notes_sharp, notes_flat, chord_notes, bool_flat=True, bool_scale=False,
                    bool_interval=True)
-    print " "
+    print(" ")
 
 
 def chord_all_keys():
     # Print out the fretboard for all root notes
-    print " "
-    print " "
-    print Settings.chord_name.title(), "Chord for 12 keys"
-    print "---------------------------------------------------------"
-    print " "
+    print(" ")
+    print(" ")
+    print(Settings.chord_name.title(), "Chord for 12 keys")
+    print("---------------------------------------------------------")
+    print(" ")
     chord_short = shorten_chord(Settings.chord_name)
     for Settings.root_note in notes_flat:
         chord_notes = return_chord_notes(Settings.root_note, chord_short)  # Search for chord in chord dictionary
-        print "Chord Name: ", Settings.root_note, Settings.chord_name.title()
-        print "Intervals:  ", ', '.join(
-            chord_dict[chord_short][1:])  # chord_dict[chord_short][1:]  # chord_dict[chord_name][chord]
-        print "Chord Notes:", ', '.join(chord_notes)
+        print("Chord Name: ", Settings.root_note, Settings.chord_name.title())
+        print("Intervals:  ", ', '.join(
+            chord_dict[chord_short][1:]))  # chord_dict[chord_short][1:]  # chord_dict[chord_name][chord]
+        print("Chord Notes:", ', '.join(chord_notes))
 
-        print " "
+        print(" ")
         show_fretboard(tuning_dict, notes_sharp, notes_flat, chord_notes, bool_flat=True, bool_scale=False,
                        bool_interval=False)
-        print " "
+        print(" ")
         show_fretboard(tuning_dict, notes_sharp, notes_flat, chord_notes, bool_flat=True, bool_scale=False,
                        bool_interval=True)
-        print " "
+        print(" ")
 
-    print "---------------------------------------------------------"
+    print("---------------------------------------------------------")
 
 def valid_scale(check_scale):
     # Returns True if check_scale is found in ListScales, otherwise returns False
@@ -1726,22 +1726,22 @@ def valid_exercise(check_exercise):
 
 def scale_all_keys():
     # Show list of possible scales
-    print "What scale from the following list do you want to use?"
+    print("What scale from the following list do you want to use?")
 
     if len(Settings.string_scale) > 0:  # If the scale has already been selected
-        print "Selection:", Settings.string_scale
+        print("Selection:", Settings.string_scale)
     else:  # If the scale has not yet been selected
         for Scale_i in ListScales:
             if Scale_i["Scale"] in ShortList_Scale:  # Using a short list of scales
                 Settings.string_scale = Settings.string_scale + Scale_i["Scale"] + ", "
 
-        print Settings.string_scale[:-2]
+        print(Settings.string_scale[:-2])
 
         # Keep asking for a scale till a valid one is chosen
         valid_scale = False
         pos_scale = []  # possible scale list of names that fit the string_scale
         while not valid_scale:
-            Settings.string_scale = raw_input().title()  # Wait for input from the user
+            Settings.string_scale = input().title()  # Wait for input from the user
             # string_scale = "Byzantine"
             if len(
                     Settings.string_scale) == 0 or Settings.string_scale == "":  # If nothing was entered, set the default to Major"
@@ -1760,17 +1760,17 @@ def scale_all_keys():
                     # print "check len", string_scale
                     break
                 else:
-                    print Settings.string_scale + " is an invalid scale"
+                    print(Settings.string_scale + " is an invalid scale")
                     for possible in pos_scale:
-                        print "Try: " + possible
+                        print("Try: " + possible)
                     del pos_scale[:]  # delete the possible list after completion
-                    print " "
+                    print(" ")
 
-    print " "
-    print " "
-    print Settings.string_scale.title(), "Scale in 12 keys"
-    print "---------------------------------------------------------"
-    print " "
+    print(" ")
+    print(" ")
+    print(Settings.string_scale.title(), "Scale in 12 keys")
+    print("---------------------------------------------------------")
+    print(" ")
 
     # Find the Index of the chosen scale
     scale_interval = ""
@@ -1786,20 +1786,20 @@ def scale_all_keys():
     for Settings.root_note in notes_flat:
         scale_notes = return_scale_notes(Settings.root_note, scale_interval)
 
-        print "Scale Name: ", Settings.root_note, Settings.string_scale  # eg E Major
-        print "Steps:      ", ''.join(scale_steps)
-        print "Intervals:  ", ', '.join(scale_interval)
-        print "Scale Notes:", ', '.join(scale_notes)
-        print " "
+        print("Scale Name: ", Settings.root_note, Settings.string_scale)  # eg E Major
+        print("Steps:      ", ''.join(scale_steps))
+        print("Intervals:  ", ', '.join(scale_interval))
+        print("Scale Notes:", ', '.join(scale_notes))
+        print(" ")
 
         show_fretboard(tuning_dict, notes_sharp, notes_flat, scale_notes, bool_flat=True, bool_scale=True,
                        bool_interval=False)
-        print " "
+        print(" ")
         show_fretboard(tuning_dict, notes_sharp, notes_flat, scale_notes, bool_flat=True, bool_scale=True,
                        bool_interval=True)
-        print " "
+        print(" ")
 
-    print "---------------------------------------------------------"
+    print("---------------------------------------------------------")
 
 
 def change_to_finger(intervals, frets):
@@ -1858,10 +1858,10 @@ def chord_sequence(chord_sequence):
     # Modified this code from here: http://codegolf.stackexchange.com/questions/2975/generating-guitar-tabs/3906#3906
 
     instrument_details = Settings.string_no.title() + " String " + Settings.instrument.title() + " in " + Settings.tuning_short + " Tuning"
-    print ""
-    print "CHORD SEQUENCE - " + instrument_details.upper()
-    print "---------------------------------------------------------"
-    print ""
+    print("")
+    print("CHORD SEQUENCE - " + instrument_details.upper())
+    print("---------------------------------------------------------")
+    print("")
 
     chord_string = ' ' * 2
     string_spacing = 4
@@ -1871,15 +1871,15 @@ def chord_sequence(chord_sequence):
         # i - V - bVII - IV - bVI - bIII - iv
         default_sequence = 'Bm F# A E G D Em F#'
 
-        print "Please enter the chords you would like tabs for eg. 'Bm F# A E G D Em' for Hotel California"
-        chord_sequence = raw_input().strip()
+        print("Please enter the chords you would like tabs for eg. 'Bm F# A E G D Em' for Hotel California")
+        chord_sequence = input().strip()
         if len(chord_sequence) < 1:
             chord_sequence = default_sequence
 
     for chord in chord_sequence.split():
         chord_string = chord_string + chord + " " * (string_spacing - len(chord) + 1)
 
-    print chord_string
+    print(chord_string)
 
     s = [("E EmF FmF#GbG GmG#AbA AmA#BbB BmC CmC#DbD DmD#Eb".find("%-02s" % s[:2]) / 4, s[-1] != 'm') for s in
          chord_sequence.split()]
@@ -1890,9 +1890,9 @@ def chord_sequence(chord_sequence):
         for (i, M) in s:
             assert isinstance(M, object)
             x = i > 4;
-            l += `i - 5 * x + 2 * (2 < t + x < 5) + (M + x) * (t == 2 - x)` + "-" * string_spacing
-        print l
-    print ""
+            l += repr(i - 5 * x + 2 * (2 < t + x < 5) + (M + x) * (t == 2 - x)) + "-" * string_spacing
+        print(l)
+    print("")
 
 
 def shorten_chord(long_chord_name):
@@ -1916,13 +1916,13 @@ def shorten_chord(long_chord_name):
 def chord_chart_all_keys():
     # Print chord diagram for all root notes where fingerings exist
     short_chord = shorten_chord(Settings.chord_name)
-    print " "
-    print Settings.chord_name.title(), "Chord for 12 keys"
-    print "---------------------------------------------------------"
-    print " "
+    print(" ")
+    print(Settings.chord_name.title(), "Chord for 12 keys")
+    print("---------------------------------------------------------")
+    print(" ")
     for root_note in notes_flat:
         chord_chart(root_note, short_chord, fret_position="")
-        print " "
+        print(" ")
 
 
 def chord_chart(tonic, chord_type, fret_position):
@@ -1975,7 +1975,7 @@ def chord_chart(tonic, chord_type, fret_position):
 
     # Read in the csv file with the chords and fill in the variables
     # print Settings.instrument.lower(), Settings.root_note + " " +  Settings.chord_name
-    print ""
+    print("")
     if Settings.instrument.lower() == "guitar" and strings == 6:
         for line in csv_file:
             chord_name = line['Chord Name']
@@ -2002,36 +2002,36 @@ def chord_chart(tonic, chord_type, fret_position):
                             break
                     else:
                         if Settings.start_chord_fret <= min_fret and Settings.end_chord_fret >= max_fret >= Settings.start_chord_fret and min_fret <= Settings.end_chord_fret:
-                            print tonic+chord_type+":", chord_name, " ", fret_pos, " ", finger_pos, " ", chord_sorted_interval, "within range", min_fret, max_fret, ", ", Settings.start_chord_fret, "-", Settings.end_chord_fret
+                            print(tonic+chord_type+":", chord_name, " ", fret_pos, " ", finger_pos, " ", chord_sorted_interval, "within range", min_fret, max_fret, ", ", Settings.start_chord_fret, "-", Settings.end_chord_fret)
                             l_chord_found = True
                             break
                         #else:
                         #    print chord_name, fret_pos, " ", finger_pos, "out of range", min_fret, max_fret, ", ", Settings.start_chord_fret, "-", Settings.end_chord_fret
                 else:
-                    print chord_name, " ", fret_pos, " ", finger_pos, "No fingering", "Searched for chord:", tonic + chord_type
+                    print(chord_name, " ", fret_pos, " ", finger_pos, "No fingering", "Searched for chord:", tonic + chord_type)
     else:
-        print "Please be aware that we only have fingerings for 6-string guitars in standard tuning"
+        print("Please be aware that we only have fingerings for 6-string guitars in standard tuning")
 
     try: # Search for chord in chord dictionary
         chord_notes = return_chord_notes(tonic, chord_type)
         intervals = chord_dict[chord_type][1:]  # Leave out the first element of the list eg ['maj7', '1', '3', '5', '7']
     except: # If cannot be found, use the details in the csv file.
-        print "Chord", tonic + chord_type, "chord not found in Chords.py dictionary. Checking csv file."
+        print("Chord", tonic + chord_type, "chord not found in Chords.py dictionary. Checking csv file.")
         chord_notes = line['Notes'].split()  # Make into alist
         intervals = chord_sorted_interval.split()
 
-    print "Chord Name: ", tonic + chord_type
-    print "Compact form:", fret_pos, finger_pos
-    print "Intervals:  ", ', '.join(intervals), "/", chord_sorted_interval  # chord_sorted_interval is from csv file
-    print "Chord Notes:", ', '.join(chord_notes)
+    print("Chord Name: ", tonic + chord_type)
+    print("Compact form:", fret_pos, finger_pos)
+    print("Intervals:  ", ', '.join(intervals), "/", chord_sorted_interval)  # chord_sorted_interval is from csv file
+    print("Chord Notes:", ', '.join(chord_notes))
 
     # Check if there are no duplicate notes in the chord and if it is 4-note chord
     if duplicate_note(line['Notes']) == False and len(chord_notes) == 4:
-        print "V-System: Fits into Ted Greene's 4-note chord system"
+        print("V-System: Fits into Ted Greene's 4-note chord system")
 
     if not (l_chord_found):
-        print "Fingering for", tonic + chord_type, "chord not found"
-    print ""
+        print("Fingering for", tonic + chord_type, "chord not found")
+    print("")
 
     bool_intervals = True  # Show the intervals in the chord chart
     finalnotes = ''
@@ -2048,12 +2048,12 @@ def chord_chart(tonic, chord_type, fret_position):
         fret_note = notes[step_from_note]
         tuning_bar = tuning_bar + fret_note + " " * (string_spacing - len(fret_note))
 
-    print margin_left + " " * 6 + "Notes" + " " * (
+    print(margin_left + " " * 6 + "Notes" + " " * (
     len(tuning_bar) - len("Notes")) + margin_chart + "Intervals" + " " * (
     len(tuning_bar) - len("Intervals")) + margin_chart + "Finger Pos" + \
-          ' ' * (len(tuning_bar) - len("Finger Positions"))
-    print ""
-    print margin_left + " " * 6 + tuning_bar + margin_chart + tuning_bar + margin_chart + tuning_bar
+          ' ' * (len(tuning_bar) - len("Finger Positions")))
+    print("")
+    print(margin_left + " " * 6 + tuning_bar + margin_chart + tuning_bar + margin_chart + tuning_bar)
 
     # Print within reasonable, viewable range
     if Settings.end_chord_fret+1 - Settings.start_chord_fret > 6:
@@ -2165,24 +2165,24 @@ def chord_chart(tonic, chord_type, fret_position):
 
         # After each fret check if we have a full chord
         if set(lfinalinterval) <= set(intervals) and set(intervals) <= set(lfinalinterval):
-            print margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger  # , lfinalinterval, fret_f, f1, "Full Chord"  # line for notes and intervals
+            print(margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger)  # , lfinalinterval, fret_f, f1, "Full Chord"  # line for notes and intervals
         else:
-            print margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger  # , lfinalinterval, fret_f, f1  # line for notes and intervals
+            print(margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger)  # , lfinalinterval, fret_f, f1  # line for notes and intervals
 
         # Print the fret bar
         if fret > 0:  # Just the fret bar without notes or intervals
-            print margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing - 1) + fret_bar + " " * (
-                string_spacing - 1) + margin_chart + fret_bar
+            print(margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing - 1) + fret_bar + " " * (
+                string_spacing - 1) + margin_chart + fret_bar)
         elif fret == first_fret:
             if fret == 0:  # indicate the open position of the first fret
-                print margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (
-                    string_spacing - 1) + fret_o_bar + " " * (string_spacing - 1) + margin_chart + fret_o_bar
+                print(margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (
+                    string_spacing - 1) + fret_o_bar + " " * (string_spacing - 1) + margin_chart + fret_o_bar)
             else:  # indicate the position of the first fret
-                print margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing + 1) + fret_bar + " " * (
-                    string_spacing + 1) + margin_chart + fret_bar
+                print(margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing + 1) + fret_bar + " " * (
+                    string_spacing + 1) + margin_chart + fret_bar)
         else:  # double line eg === for the open string at the nut
-            print margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (string_spacing + 1) + fret_o_bar + " " * (
-                string_spacing + 1) + margin_chart + fret_o_bar
+            print(margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (string_spacing + 1) + fret_o_bar + " " * (
+                string_spacing + 1) + margin_chart + fret_o_bar)
 
     # Print the last line with the last notes in the fret range start_chord_fret - end_chord_fret
     for i in range(len(tuning_dict[Settings.dict_tuning])):
@@ -2190,9 +2190,9 @@ def chord_chart(tonic, chord_type, fret_position):
         finalinterval = finalinterval + lfinalinterval[i] + " " * (string_spacing - len(lfinalinterval[i]))  # Last line for Interval Diagram
         finalchordinterval = finalchordinterval + str(interval_fingers[i]) + " " * (
             string_spacing - len(str(interval_fingers[i])))                                                  # Last line for Finger Pos Diagram
-    print ""
-    print margin_left + " " * 6 + finalnotes + margin_chart + finalinterval + margin_chart + finalchordinterval
-    print ""
+    print("")
+    print(margin_left + " " * 6 + finalnotes + margin_chart + finalinterval + margin_chart + finalchordinterval)
+    print("")
 
 
 def chord_chart2(tonic, chord_type, fret_position):
@@ -2245,7 +2245,7 @@ def chord_chart2(tonic, chord_type, fret_position):
 
     # Read in the csv file with the chords and fill in the variables
     # print Settings.instrument.lower(), Settings.root_note + " " +  Settings.chord_name
-    print ""
+    print("")
     if Settings.instrument.lower() == "guitar" and strings == 6:
         for line in csv_file:
             chord_name = line['Chord Name']
@@ -2272,36 +2272,36 @@ def chord_chart2(tonic, chord_type, fret_position):
                             break
                     else:
                         if Settings.start_chord_fret <= min_fret and Settings.end_chord_fret >= max_fret >= Settings.start_chord_fret and min_fret <= Settings.end_chord_fret:
-                            print tonic+chord_type+":", chord_name, " ", fret_pos, " ", finger_pos, " ", chord_sorted_interval, "within range", min_fret, max_fret, ", ", Settings.start_chord_fret, "-", Settings.end_chord_fret
+                            print(tonic+chord_type+":", chord_name, " ", fret_pos, " ", finger_pos, " ", chord_sorted_interval, "within range", min_fret, max_fret, ", ", Settings.start_chord_fret, "-", Settings.end_chord_fret)
                             l_chord_found = True
                             break
                         #else:
                         #    print chord_name, fret_pos, " ", finger_pos, "out of range", min_fret, max_fret, ", ", Settings.start_chord_fret, "-", Settings.end_chord_fret
                 else:
-                    print chord_name, " ", fret_pos, " ", finger_pos, "No fingering", "Searched for chord:", tonic + chord_type
+                    print(chord_name, " ", fret_pos, " ", finger_pos, "No fingering", "Searched for chord:", tonic + chord_type)
     else:
-        print "Please be aware that we only have fingerings for 6-string guitars in standard tuning"
+        print("Please be aware that we only have fingerings for 6-string guitars in standard tuning")
 
     try: # Search for chord in chord dictionary
         chord_notes = return_chord_notes(tonic, chord_type)
         intervals = chord_dict[chord_type][1:]  # Leave out the first element of the list eg ['maj7', '1', '3', '5', '7']
     except: # If cannot be found, use the details in the csv file.
-        print "Chord", tonic + chord_type, "chord not found in Chords.py dictionary. Checking csv file."
+        print("Chord", tonic + chord_type, "chord not found in Chords.py dictionary. Checking csv file.")
         chord_notes = line['Notes'].split()  # Make into alist
         intervals = chord_sorted_interval.split()
 
-    print "Chord Name: ", tonic + chord_type
-    print "Compact form:", fret_pos, finger_pos
-    print "Intervals:  ", ', '.join(intervals), "/", chord_sorted_interval  # chord_sorted_interval is from csv file
-    print "Chord Notes:", ', '.join(chord_notes)
+    print("Chord Name: ", tonic + chord_type)
+    print("Compact form:", fret_pos, finger_pos)
+    print("Intervals:  ", ', '.join(intervals), "/", chord_sorted_interval)  # chord_sorted_interval is from csv file
+    print("Chord Notes:", ', '.join(chord_notes))
 
     # Check if there are no duplicate notes in the chord and if it is 4-note chord
     if duplicate_note(line['Notes']) == False and len(chord_notes) == 4:
-        print "V-System: Fits into Ted Greene's 4-note chord system"
+        print("V-System: Fits into Ted Greene's 4-note chord system")
 
     if not (l_chord_found):
-        print "Fingering for", tonic + chord_type, "chord not found"
-    print ""
+        print("Fingering for", tonic + chord_type, "chord not found")
+    print("")
 
     bool_intervals = True  # Show the intervals in the chord chart
     finalnotes = ''
@@ -2318,12 +2318,12 @@ def chord_chart2(tonic, chord_type, fret_position):
         fret_note = notes[step_from_note]
         tuning_bar = tuning_bar + fret_note + " " * (string_spacing - len(fret_note))
 
-    print margin_left + " " * 6 + "Notes" + " " * (
+    print(margin_left + " " * 6 + "Notes" + " " * (
     len(tuning_bar) - len("Notes")) + margin_chart + "Intervals" + " " * (
     len(tuning_bar) - len("Intervals")) + margin_chart + "Finger Pos" + \
-          ' ' * (len(tuning_bar) - len("Finger Positions"))
-    print ""
-    print margin_left + " " * 6 + tuning_bar + margin_chart + tuning_bar + margin_chart + tuning_bar
+          ' ' * (len(tuning_bar) - len("Finger Positions")))
+    print("")
+    print(margin_left + " " * 6 + tuning_bar + margin_chart + tuning_bar + margin_chart + tuning_bar)
 
     # Print within reasonable, viewable range
     if Settings.end_chord_fret+1 - Settings.start_chord_fret > 6:
@@ -2408,24 +2408,24 @@ def chord_chart2(tonic, chord_type, fret_position):
 
         # After each fret check if we have a full chord
         if set(lfinalinterval) <= set(intervals) and set(intervals) <= set(lfinalinterval):
-            print margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger  # , lfinalinterval, fret_f, f1, "Full Chord"  # line for notes and intervals
+            print(margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger)  # , lfinalinterval, fret_f, f1, "Full Chord"  # line for notes and intervals
         else:
-            print margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger  # , lfinalinterval, fret_f, f1  # line for notes and intervals
+            print(margin_left + fret_num + fret_string + margin_chart + interval_bar + margin_chart + fret_string_finger)  # , lfinalinterval, fret_f, f1  # line for notes and intervals
 
         # Print the fret bar
         if fret > 0:  # Just the fret bar without notes or intervals
-            print margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing - 1) + fret_bar + " " * (
-                string_spacing - 1) + margin_chart + fret_bar
+            print(margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing - 1) + fret_bar + " " * (
+                string_spacing - 1) + margin_chart + fret_bar)
         elif fret == first_fret:
             if fret == 0:  # indicate the open position of the first fret
-                print margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (
-                    string_spacing - 1) + fret_o_bar + " " * (string_spacing - 1) + margin_chart + fret_o_bar
+                print(margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (
+                    string_spacing - 1) + fret_o_bar + " " * (string_spacing - 1) + margin_chart + fret_o_bar)
             else:  # indicate the position of the first fret
-                print margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing + 1) + fret_bar + " " * (
-                    string_spacing + 1) + margin_chart + fret_bar
+                print(margin_left + " " * 6 + fret_bar + margin_chart + " " * (string_spacing + 1) + fret_bar + " " * (
+                    string_spacing + 1) + margin_chart + fret_bar)
         else:  # double line eg === for the open string at the nut
-            print margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (string_spacing + 1) + fret_o_bar + " " * (
-                string_spacing + 1) + margin_chart + fret_o_bar
+            print(margin_left + " " * 6 + fret_o_bar + margin_chart + " " * (string_spacing + 1) + fret_o_bar + " " * (
+                string_spacing + 1) + margin_chart + fret_o_bar)
 
     # Print the last line with the last notes in the fret range start_chord_fret - end_chord_fret
     for i in range(len(tuning_dict[Settings.dict_tuning])):
@@ -2433,9 +2433,9 @@ def chord_chart2(tonic, chord_type, fret_position):
         finalinterval = finalinterval + lfinalinterval[i] + " " * (string_spacing - len(lfinalinterval[i]))  # Last line for Interval Diagram
         finalchordinterval = finalchordinterval + str(interval_fingers[i]) + " " * (
             string_spacing - len(str(interval_fingers[i])))                                                  # Last line for Finger Pos Diagram
-    print ""
-    print margin_left + " " * 6 + finalnotes + margin_chart + finalinterval + margin_chart + finalchordinterval
-    print ""
+    print("")
+    print(margin_left + " " * 6 + finalnotes + margin_chart + finalinterval + margin_chart + finalchordinterval)
+    print("")
 
 
 def finger_rules():
@@ -2445,7 +2445,7 @@ def finger_rules():
     # You can use 1 finger to play strings next to each other (up to the strings of the instrument)
     # Try to fit each finger per fret if possible. Generally the first finger starts on a fret lower, and the last finger on the highest fret.
     # It is possible to play all 4 fingers on the same fret.
-    print "Finger Rules!"
+    print("Finger Rules!")
 
 
 # def return_steps_scale(roman_interval, scale_name):
@@ -2475,8 +2475,8 @@ def chords_from_progression(chord, progression_intervals):
     else:
         root = chord[:1]
 
-    print chord
-    print progression_intervals
+    print(chord)
+    print(progression_intervals)
 
     r1 = root.count('b')
     r2 = root.count('#')
@@ -2489,7 +2489,7 @@ def chords_from_progression(chord, progression_intervals):
     roman = 0
 
     for interval in progression_intervals:
-        print "interss", interval
+        print("interss", interval)
         chord_type = ''
         interval_step = 0
         i1 = interval[:1].count('b')  # only check first character as there might be b5's added for triads
@@ -2522,13 +2522,13 @@ def chords_from_progression(chord, progression_intervals):
         else:
             chord_type = interval.replace('v', '').replace('V', '').replace('i', '').replace('I', '')
             # print "other chord", chord_type, "in", interval
-            print "trying", chord_type
+            print("trying", chord_type)
             if chord_type in chord_list:
                 temp_interval = interval_short.replace(chord_type, '')
                 if temp_interval in roman_pos:
                     roman = roman_pos[temp_interval]
                     interval_found = True
-                    print "gotcha", temp_interval, chord_type
+                    print("gotcha", temp_interval, chord_type)
 
         if interval_found:
             step_from_note = (notes.index(root) + roman + interval_step) % 12
@@ -2538,7 +2538,7 @@ def chords_from_progression(chord, progression_intervals):
                 chord_notes.append(notes[step_from_note] + chord_type)
 
                 # print notes[step_from_note], ( roman + interval_step ) % 12,
-    print chord_notes
+    print(chord_notes)
 
     # if the progression starts with # or b, extract the rest of the progression
     if progression_intervals[:1] == '#' or progression_intervals[:1] == 'b':
@@ -2547,15 +2547,15 @@ def chords_from_progression(chord, progression_intervals):
     # chord_list = list(chord_dict.keys())
     # chord_list in progression_intervals
 
-    print ""
+    print("")
     return chord_notes
 
 
 def play_chosen_scale():
-    print ""
-    print "PLAY FREQUENCIES OF NOTES IN SCALE"
-    print "---------------------------------------------------------"
-    print ""
+    print("")
+    print("PLAY FREQUENCIES OF NOTES IN SCALE")
+    print("---------------------------------------------------------")
+    print("")
 
     note_length = 0.07
     scale_list = ""
@@ -2575,14 +2575,14 @@ def play_chosen_scale():
             # print last_cut, new_cut
             last_cut = new_cut
 
-    print ""
-    print "Chose a scale from the following list:"
-    print ""
-    print scale_list[:-1]  # Leave out the comma at the end
-    print ""
+    print("")
+    print("Chose a scale from the following list:")
+    print("")
+    print(scale_list[:-1])  # Leave out the comma at the end
+    print("")
 
     while True:
-        scale = raw_input("Please select scale: ").strip()
+        scale = input("Please select scale: ").strip()
         if len(scale) == 0:  # If nothing was entered, use the data from settings
             scale = Settings.string_scale
             break
@@ -2590,12 +2590,12 @@ def play_chosen_scale():
             if valid_scale(scale):
                 break
             else:
-                print "You can only choose from the list above."
-    print "Selection: " + scale.title()
-    print " "
+                print("You can only choose from the list above.")
+    print("Selection: " + scale.title())
+    print(" ")
 
     while True:
-        root = raw_input("Please select root note: ").strip()
+        root = input("Please select root note: ").strip()
         if len(root) == 0:  # If nothing was entered, use the data from settings
             root = Settings.root_note
             break
@@ -2603,12 +2603,12 @@ def play_chosen_scale():
             if root in notes_sharp or root in notes_flat:
                 break
             else:
-                print root, " is an invalid note"
-    print "Selection: " + root.title()
-    print ""
+                print(root, " is an invalid note")
+    print("Selection: " + root.title())
+    print("")
 
     while True:
-        octave = raw_input("Please select an octave: ").strip()
+        octave = input("Please select an octave: ").strip()
         if len(octave) == 0:  # If nothing was entered use octave = 4
             octave = 4
             break
@@ -2617,15 +2617,15 @@ def play_chosen_scale():
                 octave = int(octave)
             except ValueError:
                 #Handle the exception
-                print 'Please enter an integer'
+                print('Please enter an integer')
             if octave >= 0 and octave <= 8:
                 break
             else:
-                print "The octave must be between 0-8"
-    print "Selection: " + str(octave)
+                print("The octave must be between 0-8")
+    print("Selection: " + str(octave))
 
     play_scale(root, scale, octave, note_length)
-    print ""
+    print("")
 
 
 def play_scale(root, scale, octave, note_length):
@@ -2636,13 +2636,13 @@ def play_scale(root, scale, octave, note_length):
     rootsemitones = [(x + notes_here.index(root)) % 12 for x in semitones]
     change_index = rootsemitones.index(max(rootsemitones))  # index for highest note in the same octave
 
-    print ""
-    print "Scale Name:", root, scale
-    print "Intervals: ", ' '.join(interval)
-    print "Notes:     ", ' '.join(scale_notes)
-    print "Semitones: ", str(semitones)[1:-1]  # leave out the brackets
+    print("")
+    print("Scale Name:", root, scale)
+    print("Intervals: ", ' '.join(interval))
+    print("Notes:     ", ' '.join(scale_notes))
+    print("Semitones: ", str(semitones)[1:-1])  # leave out the brackets
     # print "Semitone + root:", rootsemitones
-    print ""
+    print("")
 
     oct = octave
     change = False
@@ -2670,13 +2670,13 @@ def play_scale2(root, scale, octave, note_length):
     scale_notes = return_scale_notes(root, interval)
     semitones = return_semitones(interval)
 
-    print ""
-    print "Scale Name:", root, scale
-    print "Intervals: ", ' '.join(interval)
-    print "Notes:     ", ' '.join(scale_notes)
-    print "Semitones: ", semitones
-    print "Semitone + root:", [(x + notes_here.index(root)) % 12 for x in semitones]
-    print ""
+    print("")
+    print("Scale Name:", root, scale)
+    print("Intervals: ", ' '.join(interval))
+    print("Notes:     ", ' '.join(scale_notes))
+    print("Semitones: ", semitones)
+    print("Semitone + root:", [(x + notes_here.index(root)) % 12 for x in semitones])
+    print("")
 
     distance = 0
     oct = octave
@@ -2692,8 +2692,8 @@ def play_scale2(root, scale, octave, note_length):
 
         last_num = distance
 
-        print note, "index", notes_here.index(note), "B index", notes_here.index('B'), "dis", distance, "oct", oct
-        print change, last_num, distance
+        print(note, "index", notes_here.index(note), "B index", notes_here.index('B'), "dis", distance, "oct", oct)
+        print(change, last_num, distance)
 
         if change == True and notes_here.index(note) > notes_here.index('B'):
             oct = oct + 1
@@ -2701,7 +2701,7 @@ def play_scale2(root, scale, octave, note_length):
 
         play_note(note, oct, note_length)
 
-    print ""
+    print("")
 
 
 def duplicate_note(str_notes):
@@ -2720,7 +2720,7 @@ def return_v_system(my_voice):
     # my_voice is a string eg 'TABS' with any mix of the letters B A T S with an optional '+/-' after a letter  eg TBAS+
     # See TedGreene.py
     v_sys = 'None'
-    for s, v in greene_table.iteritems():
+    for s, v in greene_table.items():
         #print s, v, my_voice
         if my_voice in v:
             v_sys = str(s)
@@ -2746,7 +2746,7 @@ def return_note_names(fret_position):
                 fret_note = notes[step_from_note]
                 chord_notes.append(fret_note)   # add valid notes to chord_notes
             except:
-                print "Fret", fret_position, "contains a fret that is not a number."
+                print("Fret", fret_position, "contains a fret that is not a number.")
                 break
     return chord_notes
 
@@ -2767,7 +2767,7 @@ def drop_chord(fret_position, voices_to_drop):
     voicing_fret = []  # Order of pitches of the chord notes
     drop_fret_position = list(fret_position)
 
-    print ""
+    print("")
     # Find the lowest sounding note in the chord
     for i in range(6):
         if i >= 1:  # to keep track of octaves
@@ -2779,15 +2779,15 @@ def drop_chord(fret_position, voices_to_drop):
     voicing_string_order = list(voicing_fret)   # Use list() to not reference the same object
     chord_notes_before = return_note_names(fret_position)
 
-    print fret_position
-    print chord_notes_before
-    print "voicing", voicing_fret
+    print(fret_position)
+    print(chord_notes_before)
+    print("voicing", voicing_fret)
 
     # Find the nth largest number to drop the given voicing (eg Drop 2, Drop 3)
     for v in voices_to_drop:
         drop = nth_largest(v, voicing_fret)   # Find the nth largest number
         indx = voicing_string_order.index(drop)
-        print "Drop", v, "nth num", drop, "index", indx,
+        print("Drop", v, "nth num", drop, "index", indx, end=' ')
         # voicing_string_order[indx] = drop - 12   # Change the nth largest number and reduce by an octave
 
         j = 0
@@ -2796,30 +2796,30 @@ def drop_chord(fret_position, voices_to_drop):
                 # change the bottom strings to the new octave position
                 if j == indx:
                     if i == 5 or i==4: # On string 1 and 2
-                        print i, i-octave_shape1[0], drop_fret_position[i], octave_shape1[1]
+                        print(i, i-octave_shape1[0], drop_fret_position[i], octave_shape1[1])
                         drop_fret_position[i-octave_shape1[0]] = drop_fret_position[i] + octave_shape1[1]
                     if i == 3: # On string 3
                         if drop_fret_position[i-octave_shape2[0]] == 'x':
-                            print i, i-octave_shape2[0], drop_fret_position[i], octave_shape2[1]
+                            print(i, i-octave_shape2[0], drop_fret_position[i], octave_shape2[1])
                             drop_fret_position[i-octave_shape2[0]] = drop_fret_position[i] + octave_shape2[1]
                         else:
-                            print "Move unison up", drop_fret_position[i-unison[0]],  drop_fret_position[i] + unison[1]+1
+                            print("Move unison up", drop_fret_position[i-unison[0]],  drop_fret_position[i] + unison[1]+1)
                             drop_fret_position[i-unison[0]] = drop_fret_position[i] + unison[1]+1
                             drop_fret_position[i-octave_shape2[0]] = drop_fret_position[i] + octave_shape2[1]
                     if i == 2: # On string 4
                         if drop_fret_position[i-octave_shape3[0]] == 'x':
-                            print i, i-octave_shape3[0], drop_fret_position[i], octave_shape3[1]
+                            print(i, i-octave_shape3[0], drop_fret_position[i], octave_shape3[1])
                             drop_fret_position[i-octave_shape3[0]] = drop_fret_position[i] + octave_shape3[1]
                         else:
-                            print "Move unison up", drop_fret_position[i-unison[0]],  drop_fret_position[i] + unison[1]
+                            print("Move unison up", drop_fret_position[i-unison[0]],  drop_fret_position[i] + unison[1])
                             drop_fret_position[i-unison[0]] = drop_fret_position[i] + unison[1]
                             drop_fret_position[i-octave_shape3[0]] = drop_fret_position[i] + octave_shape3[1]
                     if i == 1: # On string 5
                         if drop_fret_position[i-octave_shape4[0]] == 'x':
-                            print i, i-octave_shape4[0], drop_fret_position[i], octave_shape4[1]
+                            print(i, i-octave_shape4[0], drop_fret_position[i], octave_shape4[1])
                             drop_fret_position[i-octave_shape4[0]] = drop_fret_position[i] + octave_shape4[1]
                         else:
-                            print "Move unison up", drop_fret_position[i-unison[0]],  drop_fret_position[i] + unison[1]
+                            print("Move unison up", drop_fret_position[i-unison[0]],  drop_fret_position[i] + unison[1])
                             drop_fret_position[i-unison[0]] = drop_fret_position[i] + unison[1]
                             drop_fret_position[i-octave_shape4[0]] = drop_fret_position[i] + octave_shape4[1]
                     drop_fret_position[i] = 'x' # this string is no longer played
@@ -2827,7 +2827,7 @@ def drop_chord(fret_position, voices_to_drop):
 
     # Check if the notes are the same
     chord_notes_after = return_note_names(drop_fret_position)
-    print chord_notes_after
+    print(chord_notes_after)
 
     return drop_fret_position
 
@@ -2851,7 +2851,7 @@ def drop(fret_close_positions, drops, start_strings, move_to, drop_interval):
             fret_num = int(fret_close_positions[i])
             voicing_fret.append(fret_num + jm_tuning_add)   # List of 4 numbers eg [15, 5, 18, 21]
 
-    print voicing_fret
+    print(voicing_fret)
     
     chord_chart(tonic = 'C', chord_type='6', fret_position = 'x-x-14-12-10-8')
 
@@ -2868,14 +2868,14 @@ def show_ted_greene(my_chord):
     # Find all the four note chords in the database which fit into the V-System according to Ted Greene
     # http://www.tedgreene.com/images/lessons/v_system/03_Method1_HowToRecognize.pdf
 
-    print ""
-    print "TED GREENE'S V-SYSTEM FOR FOUR-NOTE CHORDS"
-    print "---------------------------------------------------------"
-    print "Each four notes of the chord is allocated a voice depending on their sound "
-    print "from low - high, from Bass (B), Tenor (T), Alto (A), Soprano (S)."
-    print ""
-    print "Finding 4-note chords without doubling for", my_chord, "between frets", Settings.start_chord_fret, "and", Settings.end_chord_fret
-    print ""
+    print("")
+    print("TED GREENE'S V-SYSTEM FOR FOUR-NOTE CHORDS")
+    print("---------------------------------------------------------")
+    print("Each four notes of the chord is allocated a voice depending on their sound ")
+    print("from low - high, from Bass (B), Tenor (T), Alto (A), Soprano (S).")
+    print("")
+    print("Finding 4-note chords without doubling for", my_chord, "between frets", Settings.start_chord_fret, "and", Settings.end_chord_fret)
+    print("")
 
     import csv
     global test_file
@@ -2985,7 +2985,7 @@ def show_ted_greene(my_chord):
                                     doubled_note = True
                                 chord_notes.append(fret_note)   # add valid notes to chord_notes
                             except:
-                                print "Fret", chord_frets, "contains a fret that is not a number. See csv file for chord", chord_name, chord_type, fret_pos, finger_pos
+                                print("Fret", chord_frets, "contains a fret that is not a number. See csv file for chord", chord_name, chord_type, fret_pos, finger_pos)
                                 break
 
                     #fret_num = [int(num) for num in chord_frets if num != 'x']  # List of all the fret numbers without the 'x'
@@ -2994,7 +2994,7 @@ def show_ted_greene(my_chord):
                         min_fret = min(frets)
                         max_fret = max(frets)
                     except:
-                        print frets, "does not have a minimum or maximum"
+                        print(frets, "does not have a minimum or maximum")
                         break
 
                     # Check if the chord is within the viewable fret range
@@ -3031,7 +3031,7 @@ def show_ted_greene(my_chord):
                                 min_v = min(voicing_fret)
                                 # print v, min_v, voicing_copy, voicing_fret, voicing_jm_order
                                 voicing_letters[voicing_letters.index(min_v)] = v                  # Change the smallest number into B, T, A then S
-                                voicing_fret = list(filter(lambda x: x!= min_v, voicing_fret))     # Remove the smallest number
+                                voicing_fret = list([x for x in voicing_fret if x!= min_v])     # Remove the smallest number
                                 # print voicing_letters, voicing_jm_order   # The results will be two lists eg: ['B', 'T', 'A', 'S'] [5, 15, 18, 21]
 
                             # Change the voicing by Chord Tone Path (start with the lowest interval of the chord)
@@ -3066,9 +3066,9 @@ def show_ted_greene(my_chord):
                                         else:
                                             voice_str = str(voice_str.replace(vb, vb + "-"))   # Add a '-' for an octave lower eg B becomes B-
                                             # print "Extra + octave between", vb, "and", va +":", str(a)+"-"+str(b)+" =", a-b
-                                        print chord_name, " ", fret_pos, " ", chord_sorted_interval, chord_notes, voicing_jm_order, "V-System:", v_system, "("+voice_str+")"
+                                        print(chord_name, " ", fret_pos, " ", chord_sorted_interval, chord_notes, voicing_jm_order, "V-System:", v_system, "("+voice_str+")")
 
-                                print chord_name, " ", fret_pos, " ", chord_sorted_interval, chord_notes, voicing_jm_order, "V-System:", v_system, "("+voice_str+")"
+                                print(chord_name, " ", fret_pos, " ", chord_sorted_interval, chord_notes, voicing_jm_order, "V-System:", v_system, "("+voice_str+")")
 
                                 v_system = return_v_system(str(voice_str))                     # eg 'V-4'
                                 freqs_voice[voice_str] = freqs_voice.get(voice_str, 0) + 1     # Counter for each voice eg System: V-2 (BSTA), Count: 468
@@ -3076,7 +3076,7 @@ def show_ted_greene(my_chord):
                                 if voice_str not in v_syst:
                                     v_syst.append(voice_str)
 
-                                print grouping
+                                print(grouping)
                                 chord_chart(tonic, chord_type, fret_pos)
                                 if '+' in str(voice_str) or '-' in str(voice_str):             # not in voices_exclude:
                                     #########################
@@ -3097,29 +3097,29 @@ def show_ted_greene(my_chord):
                                         else:
                                             voice_line += " "*3
     else:
-        print "Please be aware that we only have fingerings for 6-string guitars in standard tuning."
+        print("Please be aware that we only have fingerings for 6-string guitars in standard tuning.")
         return   # exits the function
 
     if my_chord == 'All Chords':
-        print ""
-        print "Found", count_v_chord, "chords which fit into Ted Greene's V-System"
-        print "Frequency of each vocing:"
-        print ""
+        print("")
+        print("Found", count_v_chord, "chords which fit into Ted Greene's V-System")
+        print("Frequency of each vocing:")
+        print("")
 
-        s = sorted(freqs_voice.items(),key = lambda x :-x[1])  # Reverse sort the table by value (Count)
+        s = sorted(list(freqs_voice.items()),key = lambda x :-x[1])  # Reverse sort the table by value (Count)
         for voice, count in s:
-            print "System:", return_v_system(voice)+" ("+voice+"),", "Count:", count
-        print ""
+            print("System:", return_v_system(voice)+" ("+voice+"),", "Count:", count)
+        print("")
 
-        s = sorted(freqs_sys.items(),key = lambda x :-x[1])  # Reverse sort the table by value (Count)
+        s = sorted(list(freqs_sys.items()),key = lambda x :-x[1])  # Reverse sort the table by value (Count)
         for sys, count in s:
-            print "System:", sys, "Count:", count
-        print ""
+            print("System:", sys, "Count:", count)
+        print("")
 
         #print "Interesting chords which are not in voicing", " ".join(voices_exclude)  # Most common voices
-        print "Interesting chords which have an octave leap"
+        print("Interesting chords which have an octave leap")
         for chord in interesting_chords:
-            print chord
+            print(chord)
 
         # print "Could't find these chords in the chord dictionary"
         # print bad_chords, "they occured", count_bad, "times"
@@ -3148,15 +3148,15 @@ def show_menu():
     main_menu[19] = "Exit"  #18
 
     while True:
-        options = main_menu.keys()
-        print ""
+        options = list(main_menu.keys())
+        print("")
         instrument_details = Settings.string_no.title() + " String " + Settings.instrument.title() + " in " + Settings.tuning_short + " Tuning"
-        print "MAIN MENU - " + instrument_details.upper()
-        print "---------------------------------------------------------"
+        print("MAIN MENU - " + instrument_details.upper())
+        print("---------------------------------------------------------")
         for entry in options:
-            print str(entry) + ".", main_menu[entry]
-        print ""
-        selection = raw_input("Please Select: ").strip()
+            print(str(entry) + ".", main_menu[entry])
+        print("")
+        selection = input("Please Select: ").strip()
         if bool_int(selection):  # if selection is an integer
             selection = int(selection)
             if selection == 1:
@@ -3221,8 +3221,8 @@ def show_menu():
                 #show_ted_greene('F7#9')
                 #show_ted_greene('Bm(maj7)')
             elif selection == 18:
-                print "C6   x-x-14-12-10-8"
-                print drop(fret_close_positions=['x', 'x', '14', '12', '10', '8'], drops=[2,4], start_strings=[2,4], move_to=[3,2], drop_interval=[-12,12])
+                print("C6   x-x-14-12-10-8")
+                print(drop(fret_close_positions=['x', 'x', '14', '12', '10', '8'], drops=[2,4], start_strings=[2,4], move_to=[3,2], drop_interval=[-12,12]))
 
                 #print 'Bb A A# F# Gb C Db', " - ", sharp('Bb A A# F# Gb C Db')
                 #print 'Bb A A# F# Gb C Db', " - ", flat('Bb A A# F# Gb C Db')
@@ -3244,9 +3244,9 @@ def show_menu():
             elif selection == 19:
                 exit()
             else:
-                print "Unknown option", selection, "selected!"
+                print("Unknown option", selection, "selected!")
         else:
-            print "Unknown option", selection, "selected!"
+            print("Unknown option", selection, "selected!")
 
 # PJ: removed this for library usage.
 # TODO: replace with another top-level entry point, or move all this out to keep the entry point the same?

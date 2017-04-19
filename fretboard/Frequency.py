@@ -1,7 +1,7 @@
 # Frequency
 # #http://askubuntu.com/questions/202355/how-to-play-a-fixed-frequency-sound-using-python
 
-from __future__ import division  # Avoid division problems in Python 2
+  # Avoid division problems in Python 2
 import math
 #import pyaudio
 
@@ -22,11 +22,11 @@ def play_sound(frequency, length):
     RESTFRAMES = numberofframes % bitrate
     wavedata = ''
 
-    for x in xrange(numberofframes):
+    for x in range(numberofframes):
         wavedata = wavedata + chr(int(math.sin(x / ((bitrate / frequency) / (2 * math.pi))) * 127 + 128))
 
     # fill remainder of frameset with silence
-    for x in xrange(RESTFRAMES):
+    for x in range(RESTFRAMES):
         wavedata = wavedata + chr(128)
 
     p = PyAudio()
@@ -44,7 +44,7 @@ def play_chromatic(note_length):
     A4 = 440  # A4 (fourth octave of A) is 440 Hz
     for n in range(-21, 27, 2):  # n = -21, 19 ...27
         frequency = A4 * 2 ** (n / 12)
-        print n, round(frequency, 2)
+        print(n, round(frequency, 2))
         play_sound(frequency, note_length)
 
 
@@ -68,5 +68,5 @@ def play_note(note, octave, note_length):
     divisor = 2 ** (4 - octave)
     frequency = numerator / divisor
 
-    print note+",", "octave " + str(octave) + ",", "freq.", round(frequency, 2), "Hz"
+    print(note+",", "octave " + str(octave) + ",", "freq.", round(frequency, 2), "Hz")
     #play_sound(frequency, note_length)
