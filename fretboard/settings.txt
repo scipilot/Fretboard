@@ -1,9 +1,9 @@
-Instrument: Bass
-Strings: 5
-Tuning: Standard B
-Root Note: F
-Chord Name: maj7
-Scale: Natural Minor
+Instrument: Guitar
+Strings: 6
+Tuning: Standard
+Root Note: C
+Chord Name: maj
+Scale: Major
 Training String:
 Start Training Fret: 0
 End Training Fret: 12

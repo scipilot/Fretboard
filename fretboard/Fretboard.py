@@ -365,6 +365,8 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
     #print "valid notes", valid_n, bool_flat
     #print "note", notes
     #print "notes", id(notes), "valid_n", id(valid_n), "notes_flat", id(notes_flat), "notes_sharp", id(notes_sharp)
+    array_notes = [[0 for i in range(13)] for j in range(6)]
+    string_no = 6
     for open_string in reversed(list(range(len(tuning_dict[Settings.dict_tuning])))):
         string_notes = ""
         o_string_note = tuning_dict[Settings.dict_tuning][open_string]  # Open string of the instrument
@@ -393,8 +395,10 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
                 seg = "-" * (4 - len(fret_note))  # repeat the "-" chacter (4 times - the length of the fret note)
                 if flat(notes[step_from_note]) in flat(valid_notes) or sharp(notes[step_from_note]) in sharp(valid_notes) or fret_note in scale_interval:
                     string_notes = string_notes + seg + fret_note + fret_sym
+                    array_notes[string_no-1][fret-1] = fret_note
                 else:
                     string_notes = string_notes + "----" + fret_sym
+                    array_notes[string_no-1][fret-1] = 0
             else:  # before the first fret
                 if fret == 0:
                     if bool_sharp_open:  # if there any sharps in any of the the open tuning
@@ -406,6 +410,7 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
                         seg = " " * (4 - len(fret_note))
                         string_notes = seg + string_notes + fret_note + fret_sym
 
+        string_no -= 1
         print(string_notes)
 
     # print dots and/or fret numbers below the fretboard
@@ -433,6 +438,8 @@ def show_fretboard(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_flat,
         print(dots)
     else:
         print(frets)
+
+    return array_notes
 
 
 def show_fretboard_training(tuning_dict, notes_sharp, notes_flat, valid_notes, bool_scale, bool_interval,
